@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery, gql } from "@apollo/client";
 import { useFavorites } from '../../../context/FavoritesContext';
+import { Character, CharactersResponse } from '../../../types/character';
 import Item from '../item/Item';
 
 const GET_CHARACTERS = gql`
@@ -18,7 +19,7 @@ const GET_CHARACTERS = gql`
 
 function Characters() {
   const [searchTerm, setSearchTerm] = useState('');
-  const { loading, error, data } = useQuery(GET_CHARACTERS, {
+  const { loading, error, data } = useQuery<CharactersResponse>(GET_CHARACTERS, {
     variables: { name: searchTerm }
   });
   const { favorites } = useFavorites();
@@ -26,13 +27,21 @@ function Characters() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  const characters = data.characters.results;
+  const characters = data?.characters.results || [];
   const favoriteCharacters = characters.filter(char => favorites.includes(char.id));
   const nonFavoriteCharacters = characters.filter(char => !favorites.includes(char.id));
 
+  const characterList = (items: Character[]) => (
+    <>
+      {items.map(character => (
+        <Item key={character.id} character={character} />
+      ))}
+    </>
+  );
+
   return (
-    <div className="space-y-6">
-      <div className="mb-4">
+    <div className="p-4">
+      <div className="mb-8">
         <input
           type="text"
           placeholder="Search characters..."
@@ -44,24 +53,16 @@ function Characters() {
 
       {/* Favorites Section */}
       {favoriteCharacters.length > 0 && (
-        <div className="space-y-2">
-          <h2 className="text-lg font-semibold text-primary-700">Favorite Characters</h2>
-          <div className="space-y-2">
-            {favoriteCharacters.map(character => (
-              <Item key={character.id} character={character} />
-            ))}
-          </div>
+        <div className="mb-8">
+          <h2 className="text-lg font-semibold text-primary-700">Starred Characters ({favoriteCharacters.length})</h2>
+          {characterList(favoriteCharacters)}
         </div>
       )}
 
       {/* Non-Favorites Section */}
-      <div className="space-y-2">
-        <h2 className="text-lg font-semibold text-primary-700">All Characters</h2>
-        <div className="space-y-2">
-          {nonFavoriteCharacters.map(character => (
-            <Item key={character.id} character={character} />
-          ))}
-        </div>
+      <div className="">
+        <h2 className="text-lg font-semibold text-primary-700">Characters ({nonFavoriteCharacters.length})</h2>
+        {characterList(nonFavoriteCharacters)}
       </div>
     </div>
   );

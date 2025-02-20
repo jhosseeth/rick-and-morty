@@ -12,15 +12,16 @@ function CharactersLayout() {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-6">
-      <div className="col-span-1">
+    <div className="grid grid-cols-[400px_1fr] gap-6 font-greycliff">
+      <div>
         <Characters />
       </div>
-      <div className="col-span-1 sticky top-6">
+
+      <div className="sticky top-6">
         {id ? (
           <CharacterDetail />
         ) : (
-          <div className="h-full flex items-center justify-center bg-white rounded-lg p-6">
+          <div className="flex items-center justify-center bg-white rounded-lg p-6">
             <p className="text-primary-600 text-lg">Select a character to view details</p>
           </div>
         )}

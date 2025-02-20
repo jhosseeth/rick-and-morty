@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import CharactersLayout from './components/layout/CharactersLayout';
 import CharacterDetail from './components/characters/detail/CharacterDetail';
 import { useViewport } from './hooks/useViewport';
+import './App.css'
 
 function App() {
   const { isDesktop } = useViewport();

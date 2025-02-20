@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        greycliff: ['Greycliff', 'sans-serif'],
+      },
       colors: {
         primary: {
           100: '#EEE3FF',
