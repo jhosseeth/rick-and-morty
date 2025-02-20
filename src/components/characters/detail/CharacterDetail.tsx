@@ -1,5 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, gql } from "@apollo/client";
+import { useFavorites } from '../../../context/FavoritesContext';
 
 const GET_CHARACTER = gql`
   query GetCharacter($id: ID!) {
@@ -26,11 +27,13 @@ function CharacterDetail() {
   const { loading, error, data } = useQuery(GET_CHARACTER, {
     variables: { id }
   });
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   const character = data.character;
+  const isCharacterFavorite = isFavorite(character.id);
 
   return (
     <div className="p-4">
@@ -40,8 +43,20 @@ function CharacterDetail() {
       <div className="bg-gray-800 text-white p-6 rounded-lg max-w-2xl mx-auto">
         <div className="flex flex-col md:flex-row gap-6">
           <img src={character.image} alt={character.name} className="rounded-lg w-full md:w-1/3" />
-          <div>
-            <h1 className="text-2xl font-bold mb-4">{character.name}</h1>
+          <div className="flex-1">
+            <div className="flex justify-between items-start">
+              <h1 className="text-2xl font-bold mb-4">{character.name}</h1>
+              <button 
+                onClick={() => toggleFavorite(character.id)}
+                className="p-2 rounded-full hover:bg-gray-700"
+              >
+                {isCharacterFavorite ? (
+                  <span className="text-2xl">❤️</span>
+                ) : (
+                  <span className="text-2xl">🤍</span>
+                )}
+              </button>
+            </div>
             <div className="space-y-2">
               <p><span className="text-gray-400">Status:</span> {character.status}</p>
               <p><span className="text-gray-400">Species:</span> {character.species}</p>
