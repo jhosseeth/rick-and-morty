@@ -1,13 +1,17 @@
 import { Routes, Route } from 'react-router-dom';
-import Characters from './components/characters/list/Characters';
+import CharactersLayout from './components/layout/CharactersLayout';
 import CharacterDetail from './components/characters/detail/CharacterDetail';
-import './App.css'
+import { useViewport } from './hooks/useViewport';
 
 function App() {
+  const { isDesktop } = useViewport();
+
   return (
     <Routes>
-      <Route path="/" element={<Characters />} />
-      <Route path="/character/:id" element={<CharacterDetail />} />
+      <Route path="/" element={<CharactersLayout />}>
+        {isDesktop && <Route path="/character/:id" element={<CharactersLayout />} />}
+      </Route>
+      {!isDesktop && <Route path="/character/:id" element={<CharacterDetail />} />}
     </Routes>
   );
 }

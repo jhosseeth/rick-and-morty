@@ -1,5 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, gql } from "@apollo/client";
+import { useViewport } from '../../../hooks/useViewport';
 import { useFavorites } from '../../../context/FavoritesContext';
 
 const GET_CHARACTER = gql`
@@ -24,6 +25,7 @@ const GET_CHARACTER = gql`
 
 function CharacterDetail() {
   const { id } = useParams();
+  const { isDesktop } = useViewport();
   const { loading, error, data } = useQuery(GET_CHARACTER, {
     variables: { id }
   });
@@ -37,9 +39,12 @@ function CharacterDetail() {
 
   return (
     <div className="p-4">
-      <Link to="/" className="text-blue-500 hover:text-blue-700 mb-4 block">
-        ← Back to Characters
-      </Link>
+      {!isDesktop && (
+        <Link to="/" className="text-blue-500 hover:text-blue-700 mb-4 block">
+          ← Back to Characters
+        </Link>
+      )}
+      
       <div className="bg-gray-800 text-white p-6 rounded-lg max-w-2xl mx-auto">
         <div className="flex flex-col md:flex-row gap-6">
           <img src={character.image} alt={character.name} className="rounded-lg w-full md:w-1/3" />
