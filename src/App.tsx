@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useQuery, gql } from "@apollo/client";
 import './App.css'
 
+const GET_CHARACTERS = gql`
+  query {
+    characters(page: 1) {
+      results {
+        id
+        name
+        image
+        species
+      }
+    }
+  }
+`;
+
 function App() {
-  const [count, setCount] = useState(0)
+  const { loading, error, data } = useQuery(GET_CHARACTERS);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4">
+      {data.characters.results.map((character: any) => (
+        <div key={character.id} className="bg-gray-800 text-white p-4 rounded-lg">
+          <img src={character.image} alt={character.name} className="w-full rounded-md" />
+          <h2 className="text-lg font-bold mt-2">{character.name}</h2>
+          <p className="text-sm text-gray-400">{character.species}</p>
+        </div>
+      ))}
+    </div>
+  );
 }
 
-export default App
+export default App;
