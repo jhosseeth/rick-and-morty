@@ -23,13 +23,16 @@ function Search({ value, onChange }: SearchProps) {
           className={`w-5 h-5`}
         />
       </div>
-      <div className="absolute inset-y-0 right-3 flex items-center" onClick={() => console.log('Click')}>
+      <button
+        className="absolute right-3 bottom-2 p-2 rounded-lg cursor-pointer hover:bg-gray-200"
+        onClick={() => console.log('Click')}
+      >
         <img 
           src={filterIcon} 
           alt="Toogle favorite" 
-          className={`w-5 h-5 cursor-pointer`}
+          className={`w-5 h-5`}
         />
-      </div>
+      </button>
     </div>
   );
 }
