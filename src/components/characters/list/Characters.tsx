@@ -1,13 +1,18 @@
 import { useState } from 'react';
 import { useQuery, gql } from "@apollo/client";
 import { useFavorites } from '../../../context/FavoritesContext';
-import { Character, CharactersResponse } from '../../../types/character';
+import { 
+  Species,
+  Character,
+  CharacterType,
+  CharactersResponse,
+} from '../../../types/character';
 import Search from '../search/Search';
 import Item from '../item/Item';
 
 const GET_CHARACTERS = gql`
-  query GetCharacters($name: String) {
-    characters(page: 1, filter: { name: $name }) {
+  query GetCharacters($name: String, $species: String) {
+    characters(page: 1, filter: { name: $name, species: $species }) {
       results {
         id
         name
@@ -20,14 +25,25 @@ const GET_CHARACTERS = gql`
 
 function Characters() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [activeFilters, setActiveFilters] = useState({
+    species: 'all',
+    characterType: 'all'
+  });
   const { favorites } = useFavorites();
   const { loading, error, data } = useQuery<CharactersResponse>(GET_CHARACTERS, {
-    variables: { name: searchTerm }
+    variables: { 
+      name: searchTerm,
+      species: activeFilters.species === 'all' ? null : activeFilters.species
+    }
   });
 
   const characters = data?.characters.results || [];
   const favoriteCharacters = characters.filter(char => favorites.includes(char.id));
   const nonFavoriteCharacters = characters.filter(char => !favorites.includes(char.id));
+
+  const handleFilters = (filters: { species: Species; characterType: CharacterType }) => {
+    setActiveFilters(filters);
+  };
 
   const characterList = (items: Character[]) => (
     <>
@@ -42,7 +58,11 @@ function Characters() {
       <h1 className="text-2xl font-bold text-gray-800 mx-4 mb-4">Rick and Morty list</h1>
       
       <div className="mx-4 mb-8">
-        <Search value={searchTerm} onChange={setSearchTerm} />
+        <Search 
+          value={searchTerm} 
+          onChange={setSearchTerm}
+          onApplyFilters={handleFilters}
+        />
       </div>
 
       <div id='scroll' className='overflow-y-auto flex-1 px-4 custom-scroll'>

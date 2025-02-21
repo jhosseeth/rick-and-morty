@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { CharacterType, Species } from '../../../types/character';
 import filterIcon from '../../../assets/icons/filter.svg';
 import searchIcon from '../../../assets/icons/search.svg';
 import Filter from '../filter/Filter';
@@ -6,9 +7,10 @@ import Filter from '../filter/Filter';
 interface SearchProps {
   value: string;
   onChange: (value: string) => void;
+  onApplyFilters: (filters: { species: Species; characterType: CharacterType }) => void;
 }
 
-function Search({ value, onChange }: SearchProps) {
+function Search({ value, onChange, onApplyFilters }: SearchProps) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   return (
@@ -37,7 +39,13 @@ function Search({ value, onChange }: SearchProps) {
           className="w-5 h-5"
         />
       </button>
-      <Filter isOpen={isFilterOpen} />
+      <Filter 
+        isOpen={isFilterOpen} 
+        onApplyFilters={(filters) => {
+          onApplyFilters(filters);
+          setIsFilterOpen(false);
+        }} 
+      />
     </div>
   );
 }

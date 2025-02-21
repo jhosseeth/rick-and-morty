@@ -1,14 +1,16 @@
 import { useState, Dispatch, SetStateAction } from 'react';
-
-type Species = 'human' | 'alien' | 'all';
-type CharacterType = 'all' | 'starred' | 'others';
-type FilterOption = Species | CharacterType;
+import {
+  CharacterType,
+  FilterOption,
+  Species
+} from '../../../types/character';
 
 interface FilterProps {
   isOpen: boolean;
+  onApplyFilters: (filters: { species: Species; characterType: CharacterType }) => void;
 }
 
-function Filter({ isOpen }: FilterProps) {
+function Filter({ isOpen, onApplyFilters }: FilterProps) {
   const [selectedCharacterType, setSelectedCharacterType] = useState<CharacterType>('all');
   const [selectedSpecies, setSelectedSpecies] = useState<Species>('all');
 
@@ -62,7 +64,10 @@ function Filter({ isOpen }: FilterProps) {
         <button
           className="w-full py-3 bg-gray-300 text-white rounded-lg cursor-pointer"
           onClick={() => {
-            console.log('Filtered by:', selectedCharacterType, selectedSpecies);
+            onApplyFilters({
+              species: selectedSpecies,
+              characterType: selectedCharacterType
+            });
           }}
         >
           Filter
