@@ -11,7 +11,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ApolloProvider client={client}>
       <FavoritesProvider>
-        <BrowserRouter>
+        <BrowserRouter basename="/rick-and-morty">
           <App />
         </BrowserRouter>
       </FavoritesProvider>
