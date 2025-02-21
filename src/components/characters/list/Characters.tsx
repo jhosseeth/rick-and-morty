@@ -45,6 +45,8 @@ function Characters() {
     setActiveFilters(filters);
   };
 
+  console.log('activeFilters', activeFilters);
+
   const characterList = (items: CharacterItem[]) => (
     <>
       {items.map(character => (
@@ -57,7 +59,7 @@ function Characters() {
     <div className="py-4 h-screen flex flex-col">
       <h1 className="text-2xl font-bold text-gray-800 mx-4 mb-4">Rick and Morty list</h1>
       
-      <div className="mx-4 mb-8">
+      <div className="mx-4 mb-4">
         <Search 
           value={searchTerm} 
           onChange={setSearchTerm}
@@ -67,23 +69,25 @@ function Characters() {
 
       <div id='scroll' className='overflow-y-auto flex-1 px-4 custom-scroll'>
         {/* Favorites Section */}
-        {favoriteCharacters.length > 0 && (
+        {favoriteCharacters.length > 0 && activeFilters.characterType !== 'others' && (
           <div className="mb-8">
-            <h2 className="text-lg font-semibold text-primary-700">Starred Characters ({favoriteCharacters.length})</h2>
+            <h2 className="uppercase text-xs px-4 my-6">Starred Characters ({favoriteCharacters.length})</h2>
             {characterList(favoriteCharacters)}
           </div>
         )}
 
         {/* Non-Favorites Section */}
-        <div className="">
-          <h2 className="text-lg font-semibold text-primary-700">Characters ({nonFavoriteCharacters.length})</h2>
-          { error 
-            ? <p>Error: {error.message}</p>
-            : loading
-              ? <p>Loading...</p>
-              : characterList(nonFavoriteCharacters)
-          }
-        </div>
+        {activeFilters.characterType !== 'starred' && (
+          <div>
+            <h2 className="uppercase text-xs px-4 my-6">Characters ({nonFavoriteCharacters.length})</h2>
+            { error 
+              ? <p>Error: {error.message}</p>
+              : loading
+                ? <p>Loading...</p>
+                : characterList(nonFavoriteCharacters)
+            }
+          </div>
+        )}
       </div>
     </div>
   );
