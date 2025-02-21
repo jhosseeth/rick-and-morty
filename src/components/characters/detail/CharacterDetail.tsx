@@ -5,6 +5,7 @@ import { useFavorites } from '../../../context/FavoritesContext';
 import { Character, CharacterResponse } from '../../../types/character';
 import favoriteIcon from '../../../assets/icons/heart-fill.svg';
 import heartIcon from '../../../assets/icons/heart.svg';
+import backIcon from '../../../assets/icons/back.svg';
 
 const GET_CHARACTER = gql`
   query GetCharacter($id: ID!) {
@@ -40,21 +41,25 @@ function CharacterDetail() {
   const isCharacterFavorite = isFavorite(character.id);
 
   const DetailItem = ({ label, value }: { label: string, value: string }) => (
-    <div className="border-b border-gray-100 pb-4">
+    <div className="border-b border-gray-100 m-0 py-4">
       <h3 className="font-medium">{label}</h3>
       <p className="text-gray-500">{value}</p>
     </div>
   );
 
   return (
-    <div className="p-4">
+    <div className="p-8">
       {!isDesktop && (
-        <Link to="/" className="text-blue-500 hover:text-blue-700 mb-4 block">
-          ← Back to Characters
+        <Link to="/" className="inline-flex items-center justify-center w-8 h-8 mb-4">
+          <img 
+            src={backIcon} 
+            alt="Filter" 
+            className="w-5 h-5"
+          />
         </Link>
       )}
       
-      <div className="flex flex-col items-center text-center mb-8">
+      <div id="avatar" className="flex flex-col items-center md:items-start text-center md:text-left mb-8">
         <div className="relative mb-4">
           <img 
             src={character.image} 
@@ -63,7 +68,7 @@ function CharacterDetail() {
           />
           <button 
             onClick={() => toggleFavorite(character.id)}
-            className="absolute -bottom-2 -right-2 p-2 bg-white rounded-full shadow-lg"
+            className="absolute -bottom-2 -right-2 p-2 bg-white rounded-full cursor-pointer"
           >
             <img 
               src={isCharacterFavorite? favoriteIcon : heartIcon} 

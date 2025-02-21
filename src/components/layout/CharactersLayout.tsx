@@ -12,12 +12,12 @@ function CharactersLayout() {
   }
 
   return (
-    <div className="grid grid-cols-[400px_1fr] gap-6 font-greycliff">
+    <div className="grid grid-cols-[400px_1fr] font-greycliff">
       <div>
         <Characters />
       </div>
 
-      <div className="sticky top-6">
+      <div className="sticky top-6 detail-container">
         {id ? (
           <CharacterDetail />
         ) : (
