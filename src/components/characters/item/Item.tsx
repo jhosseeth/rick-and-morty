@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useFavorites } from '../../../context/FavoritesContext';
-import { Character } from '../../../types/character';
+import { CharacterItem } from '../../../types/character';
 import heartIcon from '../../../assets/icons/heart.svg';
 import favoriteIcon from '../../../assets/icons/heart-fill.svg';
 
 interface ItemProps {
-    character: Character;
+    character: CharacterItem;
 }
 
 function Item({ character }: ItemProps) {

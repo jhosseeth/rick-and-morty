@@ -3,9 +3,9 @@ import { useQuery, gql } from "@apollo/client";
 import { useFavorites } from '../../../context/FavoritesContext';
 import { 
   Species,
-  Character,
   CharacterType,
-  CharactersResponse,
+  CharacterItem,
+  CharactersListResponse,
 } from '../../../types/character';
 import Search from '../search/Search';
 import Item from '../item/Item';
@@ -30,7 +30,7 @@ function Characters() {
     characterType: 'all'
   });
   const { favorites } = useFavorites();
-  const { loading, error, data } = useQuery<CharactersResponse>(GET_CHARACTERS, {
+  const { loading, error, data } = useQuery<CharactersListResponse>(GET_CHARACTERS, {
     variables: { 
       name: searchTerm,
       species: activeFilters.species === 'all' ? null : activeFilters.species
@@ -45,7 +45,7 @@ function Characters() {
     setActiveFilters(filters);
   };
 
-  const characterList = (items: Character[]) => (
+  const characterList = (items: CharacterItem[]) => (
     <>
       {items.map(character => (
         <Item key={character.id} character={character} />

@@ -2,6 +2,9 @@ import { useParams, Link } from 'react-router-dom';
 import { useQuery, gql } from "@apollo/client";
 import { useViewport } from '../../../hooks/useViewport';
 import { useFavorites } from '../../../context/FavoritesContext';
+import { Character, CharacterResponse } from '../../../types/character';
+import favoriteIcon from '../../../assets/icons/heart-fill.svg';
+import heartIcon from '../../../assets/icons/heart.svg';
 
 const GET_CHARACTER = gql`
   query GetCharacter($id: ID!) {
@@ -10,7 +13,6 @@ const GET_CHARACTER = gql`
       name
       status
       species
-      type
       gender
       origin {
         name
@@ -26,7 +28,7 @@ const GET_CHARACTER = gql`
 function CharacterDetail() {
   const { id } = useParams();
   const { isDesktop } = useViewport();
-  const { loading, error, data } = useQuery(GET_CHARACTER, {
+  const { loading, error, data } = useQuery<CharacterResponse>(GET_CHARACTER, {
     variables: { id }
   });
   const { isFavorite, toggleFavorite } = useFavorites();
@@ -34,8 +36,15 @@ function CharacterDetail() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  const character = data.character;
+  const character: Character = data?.character as Character;
   const isCharacterFavorite = isFavorite(character.id);
+
+  const DetailItem = ({ label, value }: { label: string, value: string }) => (
+    <div className="border-b border-gray-100 pb-4">
+      <h3 className="font-medium">{label}</h3>
+      <p className="text-gray-500">{value}</p>
+    </div>
+  );
 
   return (
     <div className="p-4">
@@ -45,35 +54,33 @@ function CharacterDetail() {
         </Link>
       )}
       
-      <div className="bg-gray-800 text-white p-6 rounded-lg max-w-2xl mx-auto">
-        <div className="flex flex-col md:flex-row gap-6">
-          <img src={character.image} alt={character.name} className="rounded-lg w-full md:w-1/3" />
-          <div className="flex-1">
-            <div className="flex justify-between items-start">
-              <h1 className="text-2xl font-bold mb-4">{character.name}</h1>
-              <button 
-                onClick={() => toggleFavorite(character.id)}
-                className="p-2 rounded-full hover:bg-gray-700"
-              >
-                {isCharacterFavorite ? (
-                  <span className="text-2xl">❤️</span>
-                ) : (
-                  <span className="text-2xl">🤍</span>
-                )}
-              </button>
-            </div>
-            <div className="space-y-2">
-              <p><span className="text-gray-400">Status:</span> {character.status}</p>
-              <p><span className="text-gray-400">Species:</span> {character.species}</p>
-              <p><span className="text-gray-400">Gender:</span> {character.gender}</p>
-              <p><span className="text-gray-400">Origin:</span> {character.origin.name}</p>
-              <p><span className="text-gray-400">Location:</span> {character.location.name}</p>
-              {character.type && (
-                <p><span className="text-gray-400">Type:</span> {character.type}</p>
-              )}
-            </div>
-          </div>
+      <div className="flex flex-col items-center text-center mb-8">
+        <div className="relative mb-4">
+          <img 
+            src={character.image} 
+            alt={character.name} 
+            className="w-32 h-32 rounded-full" 
+          />
+          <button 
+            onClick={() => toggleFavorite(character.id)}
+            className="absolute -bottom-2 -right-2 p-2 bg-white rounded-full shadow-lg"
+          >
+            <img 
+              src={isCharacterFavorite? favoriteIcon : heartIcon} 
+              alt="Favorite" 
+              className={`w-6 h-6`}
+            />
+          </button>
         </div>
+        <h1 className="text-2xl font-bold text-gray-800 mb-1">{character.name}</h1>
+      </div>
+
+      <div className="space-y-6">
+        <DetailItem label="Specie" value={character.species} />
+        <DetailItem label="Status" value={character.status} />
+        <DetailItem label="Gender" value={character.gender} />
+        <DetailItem label="Origin" value={character.origin.name} />
+        <DetailItem label="Location" value={character.location.name} />
       </div>
     </div>
   );
