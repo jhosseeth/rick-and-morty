@@ -55,7 +55,7 @@ function Characters() {
 
   return (
     <div className="py-4 h-screen flex flex-col">
-      <h1 className="text-2xl font-bold text-gray-800 mx-4 mb-4">Rick and Morty list</h1>
+      <h1 className="text-2xl font-bold text-gray-800 m-4">Rick and Morty list</h1>
       
       <div className="mx-4 mb-4">
         <Search 
