@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useFavorites } from '../../../context/FavoritesContext';
 import { Character } from '../../../types/character';
+import heartIcon from '../../../assets/icons/heart.svg';
+import favoriteIcon from '../../../assets/icons/heart-fill.svg';
 
 interface ItemProps {
     character: Character;
@@ -27,14 +29,13 @@ function Item({ character }: ItemProps) {
                     e.preventDefault();
                     toggleFavorite(character.id);
                 }}>
-                    {isCharacterFavorite ? (
-                        <span className="text-green-500 text-lg">❤️</span>
-                    ) : (
-                        <span className="text-gray-300 text-lg">🤍</span>
-                    )}
+                    <img 
+                        src={isCharacterFavorite? favoriteIcon : heartIcon} 
+                        alt="Toogle favorite" 
+                        className={`w-5 h-5 cursor-pointer`}
+                    />
                 </button>
             </div>
-            
         </div>
     );
 }
