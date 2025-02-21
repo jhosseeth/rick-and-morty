@@ -13,7 +13,7 @@ function Item({ character }: ItemProps) {
     const isCharacterFavorite = isFavorite(character.id);
     
     return (
-        <div className="px-4 rounded-lg hover:bg-gray-100 transition">
+        <div className="px-4 rounded-lg hover:bg-[#EEE3FF] transition">
             <div className='grid grid-cols-[1fr_40px] py-3 border-t border-gray-100'>
                 <Link to={`/character/${character.id}`} key={character.id}>          
                     <div className="flex items-center gap-3">
@@ -25,16 +25,21 @@ function Item({ character }: ItemProps) {
                     </div>
                 </Link>
 
-                <button onClick={(e) => {
-                    e.preventDefault();
-                    toggleFavorite(character.id);
-                }}>
-                    <img 
-                        src={isCharacterFavorite? favoriteIcon : heartIcon} 
-                        alt="Toogle favorite" 
-                        className={`w-5 h-5 cursor-pointer`}
-                    />
-                </button>
+                <div className='flex items-center'>
+                    <button
+                        className="flex justify-center items-center w-8 h-8 bg-white rounded-full"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            toggleFavorite(character.id);
+                        }}
+                    >
+                        <img 
+                            src={isCharacterFavorite? favoriteIcon : heartIcon} 
+                            alt="Toogle favorite" 
+                            className={`w-5 h-5 cursor-pointer`}
+                        />
+                    </button>
+                </div>
             </div>
         </div>
     );

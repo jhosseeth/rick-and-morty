@@ -45,8 +45,6 @@ function Characters() {
     setActiveFilters(filters);
   };
 
-  console.log('activeFilters', activeFilters);
-
   const characterList = (items: CharacterItem[]) => (
     <>
       {items.map(character => (

@@ -1,2 +1,12 @@
 @import "tailwindcss";
 @import "./assets/fonts/fonts.css";
+
+/* Fuerza la inclusión de clases personalizadas */
+@layer utilities {
+    .bg-primary-100 { background-color: #EEE3FF; }
+    .bg-primary-600 { background-color: #8054C7; }
+    .bg-primary-700 { background-color: #5A3696; }
+    .bg-secondary-600 { background-color: #63D838; }
+    .text-primary-600 { color: #8054C7 !important; }
+    .text-primary-700 { color: #5A3696 !important; }
+}

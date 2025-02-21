@@ -26,7 +26,7 @@ function Filter({ isOpen, onApplyFilters }: FilterProps) {
         key={option}
         className={`py-2 rounded-md text-sm capitalize cursor-pointer ${
           selectedValue === option
-            ? 'bg-gray-100' 
+            ? 'bg-primary-100 text-primary-700' 
             : 'border border-gray-200'
         }`}
         onClick={() => onChange(option)}
@@ -62,7 +62,7 @@ function Filter({ isOpen, onApplyFilters }: FilterProps) {
         </div>
 
         <button
-          className="w-full py-3 bg-gray-300 text-white rounded-lg cursor-pointer"
+          className="w-full py-3 bg-primary-600 text-white rounded-lg cursor-pointer"
           onClick={() => {
             onApplyFilters({
               species: selectedSpecies,

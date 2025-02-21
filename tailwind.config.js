@@ -17,8 +17,8 @@ export default {
         },
         secondary: {
           600: '#63D838',
-        }
-      }
+        },
+      },
     },
   },
   plugins: [],
