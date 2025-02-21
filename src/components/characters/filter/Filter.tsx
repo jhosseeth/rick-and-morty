@@ -4,6 +4,7 @@ import {
   FilterOption,
   Species
 } from '../../../types/character';
+import backIcon from '../../../assets/icons/back.svg';
 
 interface FilterProps {
   isOpen: boolean;
@@ -11,8 +12,8 @@ interface FilterProps {
 }
 
 function Filter({ isOpen, onApplyFilters }: FilterProps) {
-  const [selectedCharacterType, setSelectedCharacterType] = useState<CharacterType>('all');
   const [selectedSpecies, setSelectedSpecies] = useState<Species>('all');
+  const [selectedCharacterType, setSelectedCharacterType] = useState<CharacterType>('all');
 
   if (!isOpen) return null;
 
@@ -37,7 +38,17 @@ function Filter({ isOpen, onApplyFilters }: FilterProps) {
   };
 
   return (
-    <div className="fixed md:absolute left-0 top-0 md:top-14 w-screen md:w-full h-screen md:h-auto bg-white md:border md:border-gray-500 md:rounded-lg md:shadow-lg p-4 z-10">
+    <div className="fixed md:absolute left-0 top-0 md:top-14 w-screen md:w-full h-screen md:h-auto bg-white md:border md:border-gray-100 md:rounded-lg md:shadow-lg p-8 md:p-6 z-10 grid grid-rows-[auto_1fr_auto]">
+      <div className="flex items-center mb-6 md:hidden">
+        <button
+          onClick={() => onApplyFilters({ species: selectedSpecies, characterType: selectedCharacterType })}
+          className="p-2 -ml-2"
+        >
+          <img src={backIcon} alt="Back" className="w-5 h-5" />
+        </button>
+        <h1 className="text-xl font-semibold flex-1 text-center mr-7">Filters</h1>
+      </div>
+
       <div className="space-y-6">
         <div>
           <p className="text-sm text-gray-600 mb-2">Character</p>
@@ -60,9 +71,10 @@ function Filter({ isOpen, onApplyFilters }: FilterProps) {
             )}
           </div>
         </div>
+      </div>
 
-        <button
-          className="w-full py-3 bg-primary-600 text-white rounded-lg cursor-pointer"
+      <button
+          className="w-full py-2 md:mt-6 bg-primary-600 text-white rounded-lg cursor-pointer"
           onClick={() => {
             onApplyFilters({
               species: selectedSpecies,
@@ -72,7 +84,6 @@ function Filter({ isOpen, onApplyFilters }: FilterProps) {
         >
           Filter
         </button>
-      </div>
     </div>
   );
 }
