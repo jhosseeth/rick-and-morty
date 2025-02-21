@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import filterIcon from '../../../assets/icons/filter.svg';
 import searchIcon from '../../../assets/icons/search.svg';
+import Filter from '../filter/Filter';
 
 interface SearchProps {
   value: string;
@@ -7,6 +9,8 @@ interface SearchProps {
 }
 
 function Search({ value, onChange }: SearchProps) {
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
   return (
     <div className="relative">
       <input
@@ -19,20 +23,21 @@ function Search({ value, onChange }: SearchProps) {
       <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
         <img 
           src={searchIcon} 
-          alt="Toogle favorite" 
-          className={`w-5 h-5`}
+          alt="Search" 
+          className="w-5 h-5"
         />
       </div>
       <button
         className="absolute right-3 bottom-2 p-2 rounded-lg cursor-pointer hover:bg-gray-200"
-        onClick={() => console.log('Click')}
+        onClick={() => setIsFilterOpen(!isFilterOpen)}
       >
         <img 
           src={filterIcon} 
-          alt="Toogle favorite" 
-          className={`w-5 h-5`}
+          alt="Filter" 
+          className="w-5 h-5"
         />
       </button>
+      <Filter isOpen={isFilterOpen} />
     </div>
   );
 }
