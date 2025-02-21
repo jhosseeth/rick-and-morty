@@ -1,3 +1,24 @@
 body {
     font-family: 'Greycliff', sans-serif;
 }
+
+/* Custom Scrollbar Styles */
+.custom-scroll {
+  /* Chrome, Safari, Edge */
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #EEE3FF;
+    border-radius: 20px;
+  }
+
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #EEE3FF transparent;
+}

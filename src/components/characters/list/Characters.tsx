@@ -45,7 +45,7 @@ function Characters() {
         <Search value={searchTerm} onChange={setSearchTerm} />
       </div>
 
-      <div id='scroll' className='overflow-y-auto flex-1 px-4'>
+      <div id='scroll' className='overflow-y-auto flex-1 px-4 custom-scroll'>
         {/* Favorites Section */}
         {favoriteCharacters.length > 0 && (
           <div className="mb-8">
