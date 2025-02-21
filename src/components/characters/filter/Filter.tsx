@@ -24,7 +24,7 @@ function Filter({ isOpen, onApplyFilters }: FilterProps) {
     return options.map((option) => (
       <button
         key={option}
-        className={`px-4 py-2 rounded-md text-sm capitalize ${
+        className={`py-2 rounded-md text-sm capitalize cursor-pointer ${
           selectedValue === option
             ? 'bg-gray-100' 
             : 'border border-gray-200'
@@ -37,11 +37,11 @@ function Filter({ isOpen, onApplyFilters }: FilterProps) {
   };
 
   return (
-    <div className="absolute right-0 top-14 w-80 bg-white rounded-lg shadow-lg p-4 z-10">
+    <div className="absolute top-14 w-full bg-white border border-gray-100 rounded-lg shadow-lg p-4 z-10">
       <div className="space-y-6">
         <div>
           <p className="text-sm text-gray-600 mb-2">Character</p>
-          <div className="flex gap-2">
+          <div className="grid grid-cols-[1fr_1fr_1fr] gap-2">
             {renderFilterButtons<CharacterType>(
               ['all', 'starred', 'others'],
               selectedCharacterType,
@@ -52,7 +52,7 @@ function Filter({ isOpen, onApplyFilters }: FilterProps) {
 
         <div>
           <p className="text-sm text-gray-600 mb-2">Specie</p>
-          <div className="flex gap-2">
+          <div className="grid grid-cols-[1fr_1fr_1fr] gap-2">
             {renderFilterButtons<Species>(
               ['all', 'human', 'alien'],
               selectedSpecies,
