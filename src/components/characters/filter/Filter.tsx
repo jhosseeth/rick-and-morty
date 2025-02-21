@@ -37,7 +37,7 @@ function Filter({ isOpen, onApplyFilters }: FilterProps) {
   };
 
   return (
-    <div className="absolute top-14 w-full bg-white border border-gray-100 rounded-lg shadow-lg p-4 z-10">
+    <div className="fixed md:absolute left-0 top-0 md:top-14 w-screen md:w-full h-screen md:h-auto bg-white md:border md:border-gray-500 md:rounded-lg md:shadow-lg p-4 z-10">
       <div className="space-y-6">
         <div>
           <p className="text-sm text-gray-600 mb-2">Character</p>

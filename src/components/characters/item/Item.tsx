@@ -27,7 +27,7 @@ function Item({ character }: ItemProps) {
 
                 <div className='flex items-center'>
                     <button
-                        className="flex justify-center items-center w-8 h-8 bg-white rounded-full"
+                        className="flex justify-center items-center w-8 h-8 pt-0.5 bg-white rounded-full"
                         onClick={(e) => {
                             e.preventDefault();
                             toggleFavorite(character.id);
