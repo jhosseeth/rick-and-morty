@@ -1,4 +1,4 @@
-import { useState, Dispatch, SetStateAction } from 'react';
+import { useState, Dispatch, SetStateAction, useEffect } from 'react';
 import {
   CharacterType,
   FilterOption,
@@ -14,6 +14,24 @@ interface FilterProps {
 function Filter({ isOpen, onApplyFilters }: FilterProps) {
   const [selectedSpecies, setSelectedSpecies] = useState<Species>('all');
   const [selectedCharacterType, setSelectedCharacterType] = useState<CharacterType>('all');
+  const [initialState, setInitialState] = useState({
+    species: 'all' as Species,
+    characterType: 'all' as CharacterType
+  });
+
+  // Store initial state when filter opens
+  useEffect(() => {
+    if (isOpen) {
+      setInitialState({
+        species: selectedSpecies,
+        characterType: selectedCharacterType
+      });
+    }
+  }, [isOpen]);
+
+  // Check if current values are different from initial state
+  const hasChanges = selectedSpecies !== initialState.species || 
+                    selectedCharacterType !== initialState.characterType;
 
   if (!isOpen) return null;
 
@@ -74,16 +92,21 @@ function Filter({ isOpen, onApplyFilters }: FilterProps) {
       </div>
 
       <button
-          className="w-full py-2 md:mt-6 bg-primary-600 text-white rounded-lg cursor-pointer"
-          onClick={() => {
-            onApplyFilters({
-              species: selectedSpecies,
-              characterType: selectedCharacterType
-            });
-          }}
-        >
-          Filter
-        </button>
+        className={`w-full py-2 md:mt-6 rounded-lg ${
+          hasChanges 
+            ? 'bg-primary-600 text-white cursor-pointer' 
+            : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+        }`}
+        disabled={!hasChanges}
+        onClick={() => {
+          onApplyFilters({
+            species: selectedSpecies,
+            characterType: selectedCharacterType
+          });
+        }}
+      >
+        Filter
+      </button>
     </div>
   );
 }
